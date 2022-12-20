@@ -1,5 +1,7 @@
 from enum import Enum
 
+SOLUCAO = "12345678_"
+
 
 class Acao(Enum):
     CIMA = 1
@@ -57,6 +59,7 @@ def sucessor(estado):
 
 
 def obtemEstadoResultante(estado: str, acao: Acao):
+    '''Retorna o estado resultante ao executar a ação  especificada.'''
     # Converte string em lista p/ que seja possível trocar caracteres de lugar
     lista_estado = list(estado)
     pos_atual_branco = estado.index('_')
@@ -104,8 +107,14 @@ def bfs(estado):
     :param estado: str
     :return:
     """
-    # substituir a linha abaixo pelo seu codigo
-    raise NotImplementedError
+    movimentos = []
+    solucao = busca_grafo(estado, 'bfs')
+    if solucao is not None:
+        for nodo in solucao:
+            movimentos.append(nodo.acao)
+        print(movimentos)
+        return movimentos
+    return None
 
 
 def dfs(estado):
@@ -146,19 +155,38 @@ def astar_manhattan(estado):
     # substituir a linha abaixo pelo seu codigo
     raise NotImplementedError
 
+    ###########################################
+
+
+def empilha_solucao(nodo):
+    nodos_solucao = []
+    while nodo.pai != None:
+        nodos_solucao.insert(0, nodo)
+        nodo = nodo.pai
+    return nodos_solucao
+
+
+def busca_grafo(estado: str):
+    nodoInicial = Nodo(estado, None, None, 0)
+    fronteira = [nodoInicial]
+    expandidos = set()
+    while True:
+        if len(fronteira) == 0:
+            return None
+        nodoAtual = fronteira.pop()
+        if nodoAtual.estado == SOLUCAO:
+            print("Nodos expandidos: ", len(expandidos))
+            return empilha_solucao(nodoAtual)
+        if nodoAtual.estado not in expandidos:
+            proximos_nodos = expande(nodoAtual)
+            expandidos.add(nodoAtual.estado)
+            for proximo_nodo in proximos_nodos:
+                if proximo_nodo.estado not in expandidos:
+                    fronteira.insert(0, proximo_nodo)
+
+
 ######
 
 # Validações
-foo = Nodo(
-    "12345_678",
-    "teste",
-    Acao.BAIXO,
-    10
-)
-bar = Nodo(
-    "1234_5678",
-    foo,
-    Acao.ESQUERDA,
-    11
-)
-print(expande(bar))
+estadoInicial = "5_6814327"
+bfs(estadoInicial)

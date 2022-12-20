@@ -37,7 +37,7 @@ class TestaSolucao(unittest.TestCase):
         for nodo in resposta:
             # verifica se a tupla com os atributos do nodo esta' presente no conjunto com os nodos esperados
             self.assertIn((nodo.estado, nodo.pai.estado, nodo.acao, nodo.custo), resposta_esperada)
-'''
+
     def run_algorithm(self, alg, input):
         """
         Um helper que executa o algoritmo verificando timeout. Falha se der timeout
@@ -65,7 +65,7 @@ class TestaSolucao(unittest.TestCase):
 
         # nao ha solucao a partir do estado 185423_67
         self.assertIsNone(self.run_algorithm(solucao.bfs, "185423_67"))
-
+'''
     def test_run_astar_hamming(self):
         """
         Testa o A* com dist. Hamming em um estado com solução e outro sem solução.
