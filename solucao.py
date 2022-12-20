@@ -126,9 +126,14 @@ def dfs(estado):
     :param estado: str
     :return:
     """
-    # substituir a linha abaixo pelo seu codigo
-    raise NotImplementedError
-
+    movimentos = []
+    solucao = busca_grafo(estado, 'dfs')
+    if solucao is not None:
+        for nodo in solucao:
+            movimentos.append(nodo.acao)
+        print(movimentos)
+        return movimentos
+    return None
 
 def astar_hamming(estado):
     """
@@ -166,14 +171,19 @@ def empilha_solucao(nodo):
     return nodos_solucao
 
 
-def busca_grafo(estado: str):
+def busca_grafo(estado: str, type):
     nodoInicial = Nodo(estado, None, None, 0)
     fronteira = [nodoInicial]
     expandidos = set()
     while True:
         if len(fronteira) == 0:
             return None
-        nodoAtual = fronteira.pop()
+        if type == 'bfs':
+            nodoAtual = fronteira.pop()
+        elif type == 'dfs':
+            nodoAtual = fronteira.pop(0)
+
+
         if nodoAtual.estado == SOLUCAO:
             print("Nodos expandidos: ", len(expandidos))
             return empilha_solucao(nodoAtual)
@@ -183,10 +193,12 @@ def busca_grafo(estado: str):
             for proximo_nodo in proximos_nodos:
                 if proximo_nodo.estado not in expandidos:
                     fronteira.insert(0, proximo_nodo)
+        print (nodoAtual.estado)
 
 
 ######
 
 # Validações
 estadoInicial = "5_6814327"
-bfs(estadoInicial)
+dfs(estadoInicial)
+
