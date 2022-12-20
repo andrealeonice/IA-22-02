@@ -135,6 +135,26 @@ def dfs(estado):
         return movimentos
     return None
 
+def h_hamming (estado):
+    s = list(SOLUCAO)
+    v = list(estado)
+    h=0
+    for i in range (len(s)):
+        if v[i]!=s[i]:
+            h=h+1
+    return h
+
+def prioridades(fronteira:str):
+    indice = 0
+    menor = fronteira[0][1]
+    for i in range (len(fronteira)):
+        if fronteira[i][1] < menor:
+            indice = i
+            menor = fronteira[i][1]
+    return indice
+
+
+
 def astar_hamming(estado):
     """
     Recebe um estado (string), executa a busca A* com h(n) = soma das distâncias de Hamming e
@@ -144,9 +164,14 @@ def astar_hamming(estado):
     :param estado: str
     :return:
     """
-    # substituir a linha abaixo pelo seu codigo
-    raise NotImplementedError
-
+    movimentos =[]
+    solucao = busca_grafo(estado, 'a*_hamming')
+    if solucao is not None:
+        for nodo in solucao:
+            movimentos.append(nodo.acao)
+        print(movimentos)
+        return movimentos
+    return None
 
 def astar_manhattan(estado):
     """
@@ -173,8 +198,10 @@ def empilha_solucao(nodo):
 
 def busca_grafo(estado: str, type):
     nodoInicial = Nodo(estado, None, None, 0)
-    fronteira = [nodoInicial]
+    fronteira = []
+    fronteira.insert(0,[nodoInicial,0])
     expandidos = set()
+    custoTotal=0
     while True:
         if len(fronteira) == 0:
             return None
@@ -182,23 +209,30 @@ def busca_grafo(estado: str, type):
             nodoAtual = fronteira.pop()
         elif type == 'dfs':
             nodoAtual = fronteira.pop(0)
+        elif type == 'a*_hamming':
+            nodoAtual = fronteira.pop(prioridades(fronteira))
 
 
-        if nodoAtual.estado == SOLUCAO:
+        if nodoAtual[0].estado == SOLUCAO:
             print("Nodos expandidos: ", len(expandidos))
-            return empilha_solucao(nodoAtual)
-        if nodoAtual.estado not in expandidos:
-            proximos_nodos = expande(nodoAtual)
-            expandidos.add(nodoAtual.estado)
+            return empilha_solucao(nodoAtual[0])
+        if nodoAtual[0].estado not in expandidos:
+            proximos_nodos = expande(nodoAtual[0])
+            expandidos.add(nodoAtual[0].estado)
             for proximo_nodo in proximos_nodos:
-                if proximo_nodo.estado not in expandidos:
-                    fronteira.insert(0, proximo_nodo)
-        print (nodoAtual.estado)
+                if proximo_nodo.estado not in expandidos and type != 'a*_hamming':
+                    fronteira.insert(0, [proximo_nodo,0])
+                elif type == 'a*_hamming' and  proximo_nodo.estado not in expandidos:
+                    custoTotal = proximo_nodo.custo + int(h_hamming(proximo_nodo.estado))
+                    fronteira.insert(0, [proximo_nodo,custoTotal])
+                    ##print ("fronteira "+ str(fronteira[0][1]))
+
+        print (proximo_nodo.estado)
 
 
 ######
 
 # Validações
-estadoInicial = "5_6814327"
-dfs(estadoInicial)
+##estadoInicial = "124567_38"
+##astar_hamming(estadoInicial)
 
