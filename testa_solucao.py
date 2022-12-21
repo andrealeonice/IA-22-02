@@ -64,7 +64,7 @@ class TestaSolucao(unittest.TestCase):
         self.assertEqual(23, len(self.run_algorithm(solucao.bfs, "2_3541687")))
 
         # nao ha solucao a partir do estado 185423_67
-        #self.assertIsNone(self.run_algorithm(solucao.bfs, "185423_67"))
+        self.assertIsNone(self.run_algorithm(solucao.bfs, "185423_67"))
 
     def test_run_astar_hamming(self):
         """
@@ -77,9 +77,9 @@ class TestaSolucao(unittest.TestCase):
         self.assertEqual(23, len(self.run_algorithm(solucao.astar_hamming, "2_3541687")))
 
         # nao ha solucao a partir do estado 185423_67
-   #     self.assertIsNone(self.run_algorithm(solucao.astar_hamming, "185423_67"))
+        self.assertIsNone(self.run_algorithm(solucao.astar_hamming, "185423_67"))
 
-    '''
+
     def test_run_astar_manhattan(self):
         """
         Testa o A* com dist. Manhattan em um estado com solução e outro sem solução.
@@ -112,6 +112,6 @@ class TestaSolucao(unittest.TestCase):
 
         for alg in [solucao.bfs, solucao.astar_hamming, solucao.astar_manhattan]:
             self.assertEqual(solucao_otima, self.run_algorithm(alg, estado))
-'''
+
 if __name__ == '__main__':
     unittest.main()

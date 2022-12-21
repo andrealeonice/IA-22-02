@@ -153,7 +153,18 @@ def prioridades(fronteira:str):
             menor = fronteira[i][1]
     return indice
 
-
+def h_manhattan(estado):
+    matriz = {0:(1,1),1:(1,2),2:(1,3),
+            3:(2,1),4:(2,2),5:(2,3),
+            6:(3,1),7:(3,2),8:(3,3)}
+    h=0;
+    for k in range(9):
+        if  SOLUCAO[k] != estado[k]:
+            if estado[k] != "_":
+                x = abs(matriz[k][0]-matriz[int(estado[k])-1][0])
+                y = abs(matriz[k][1]-matriz[int(estado[k])-1][1])
+                h += x + y
+    return h
 
 def astar_hamming(estado):
     """
@@ -182,10 +193,14 @@ def astar_manhattan(estado):
     :param estado: str
     :return:
     """
-    # substituir a linha abaixo pelo seu codigo
-    raise NotImplementedError
-
-    ###########################################
+    movimentos = []
+    solucao = busca_grafo(estado, 'a*_manhattan')
+    if solucao is not None:
+        for nodo in solucao:
+            movimentos.append(nodo.acao)
+        print(movimentos)
+        return movimentos
+    return None
 
 
 def empilha_solucao(nodo):
@@ -211,6 +226,8 @@ def busca_grafo(estado: str, type):
             nodoAtual = fronteira.pop(0)
         elif type == 'a*_hamming':
             nodoAtual = fronteira.pop(prioridades(fronteira))
+        elif type == 'a*_manhattan':
+            nodoAtual = fronteira.pop(prioridades(fronteira))
 
 
         if nodoAtual[0].estado == SOLUCAO:
@@ -220,19 +237,20 @@ def busca_grafo(estado: str, type):
             proximos_nodos = expande(nodoAtual[0])
             expandidos.add(nodoAtual[0].estado)
             for proximo_nodo in proximos_nodos:
-                if proximo_nodo.estado not in expandidos and type != 'a*_hamming':
+                if proximo_nodo.estado not in expandidos and type != 'a*_hamming' and type != 'a*_manhattan':
                     fronteira.insert(0, [proximo_nodo,0])
-                elif type == 'a*_hamming' and  proximo_nodo.estado not in expandidos:
+                elif type == 'a*_hamming' and  proximo_nodo.estado not in expandidos and type != 'a*_manhattan':
                     custoTotal = proximo_nodo.custo + int(h_hamming(proximo_nodo.estado))
                     fronteira.insert(0, [proximo_nodo,custoTotal])
-                    ##print ("fronteira "+ str(fronteira[0][1]))
+                elif type != 'a*_hamming' and proximo_nodo.estado not in expandidos and type == 'a*_manhattan':
+                    custoTotal = proximo_nodo.custo + int(h_manhattan(proximo_nodo.estado))
+                    fronteira.insert(0, [proximo_nodo, custoTotal])
 
-        print (proximo_nodo.estado)
 
 
 ######
 
 # Validações
-##estadoInicial = "124567_38"
-##astar_hamming(estadoInicial)
+estadoInicial = "124567_38"
+astar_manhattan(estadoInicial)
 
