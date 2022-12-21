@@ -57,6 +57,14 @@ def sucessor(estado):
 
     return acoes_possiveis
 
+def inv (estado):
+    total = 0
+    lista = estado.replace("_","")
+    for i, aux in enumerate(lista):
+        for indice in range(i + 1, len(lista)):
+            if aux > lista[indice]:
+                total += 1
+    return total
 
 def obtemEstadoResultante(estado: str, acao: Acao):
     '''Retorna o estado resultante ao executar a ação  especificada.'''
@@ -215,8 +223,11 @@ def busca_grafo(estado: str, type):
     nodoInicial = Nodo(estado, None, None, 0)
     fronteira = []
     fronteira.insert(0,[nodoInicial,0])
+
     expandidos = set()
     custoTotal=0
+    if (inv(estado) % 2) == 1:
+        return None
     while True:
         if len(fronteira) == 0:
             return None
@@ -251,6 +262,6 @@ def busca_grafo(estado: str, type):
 ######
 
 # Validações
-estadoInicial = "124567_38"
-astar_manhattan(estadoInicial)
+#3estadoInicial = "185423_67"
+##astar_manhattan(estadoInicial)
 
