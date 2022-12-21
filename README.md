@@ -1,7 +1,7 @@
 # Inteligência Artificial | 2022/1 | Turma A | Trabalho 1
 
 ## Participantes:
- - Andréa Leonice | x
+ - Andrea Leonice Pereira dos Santos | 00275624
  - Eduardo Raupp Peretto | 00313439
  
 ## Bibliotecas utilizadas
@@ -23,11 +23,11 @@
  ### A* Hamming
  | Nós expandidos | Tempo decorrido | Custo da solução |
  |-|-|-|
- | 12540 | 3.034486 seg | 23 |
+ | 12540 | 2.924259 seg | 23 |
  
  
  ### A* Manhattan
  | Nós expandidos | Tempo decorrido | Custo da solução |
  |-|-|-|
- | x | x | x |
+ | 1094 | 0.041152 seg | 23 |
  
