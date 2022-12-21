@@ -108,7 +108,7 @@ class TestaSolucao(unittest.TestCase):
         Testa se BFS e A* retornam a sequencia de acoes na ordem correta
         """
         estado = "1235_6478"
-        solucao_otima = ['esquerda', 'abaixo', 'direita', 'direita']
+        solucao_otima = [solucao.Acao.ESQUERDA, solucao.Acao.BAIXO, solucao.Acao.DIREITA, solucao.Acao.DIREITA]
 
         for alg in [solucao.bfs, solucao.astar_hamming, solucao.astar_manhattan]:
             self.assertEqual(solucao_otima, self.run_algorithm(alg, estado))

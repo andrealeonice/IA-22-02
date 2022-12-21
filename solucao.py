@@ -1,4 +1,5 @@
 from enum import Enum
+from time import time
 
 SOLUCAO = "12345678_"
 
@@ -16,16 +17,6 @@ class Nodo:
         self.pai = pai
         self.acao = acao
         self.custo = custo
-
-    def expande(self):
-        raise NotImplementedError
-
-    def printAllProperties(self):
-        print("#####################")
-        print(self.estado)
-        print(self.pai)
-        print(self.acao)
-        print(self.custo)
 
 
 def sucessor(estado):
@@ -57,14 +48,16 @@ def sucessor(estado):
 
     return acoes_possiveis
 
-def inv (estado):
+
+def inv(estado):
     total = 0
-    lista = estado.replace("_","")
+    lista = estado.replace("_", "")
     for i, aux in enumerate(lista):
         for indice in range(i + 1, len(lista)):
             if aux > lista[indice]:
                 total += 1
     return total
+
 
 def obtemEstadoResultante(estado: str, acao: Acao):
     '''Retorna o estado resultante ao executar a ação  especificada.'''
@@ -115,13 +108,17 @@ def bfs(estado):
     :param estado: str
     :return:
     """
+    print("\n### Executando algoritmo BFS ###")
+    tempo_inicial = time()
     movimentos = []
     solucao = busca_grafo(estado, 'bfs')
     if solucao is not None:
         for nodo in solucao:
             movimentos.append(nodo.acao)
-        print(movimentos)
+        print('Tempo de execução BFS: %f seg.' % (time() - tempo_inicial))
+        print('Custo da solução: ', len(movimentos))
         return movimentos
+    print("Sem solução")
     return None
 
 
@@ -134,45 +131,53 @@ def dfs(estado):
     :param estado: str
     :return:
     """
+    print("\n### Executando algoritmo DFS ###")
+    tempo_inicial = time()
     movimentos = []
     solucao = busca_grafo(estado, 'dfs')
     if solucao is not None:
         for nodo in solucao:
             movimentos.append(nodo.acao)
-        print(movimentos)
+        print('Tempo de execução DFS: %f seg.\n' % (time() - tempo_inicial))
+        print('Custo da solução: ', len(movimentos))
         return movimentos
+    print("Sem solução")
     return None
 
-def h_hamming (estado):
+
+def h_hamming(estado):
     s = list(SOLUCAO)
     v = list(estado)
-    h=0
-    for i in range (len(s)):
-        if v[i]!=s[i]:
-            h=h+1
+    h = 0
+    for i in range(len(s)):
+        if v[i] != s[i]:
+            h = h+1
     return h
 
-def prioridades(fronteira:str):
+
+def prioridades(fronteira: str):
     indice = 0
     menor = fronteira[0][1]
-    for i in range (len(fronteira)):
+    for i in range(len(fronteira)):
         if fronteira[i][1] < menor:
             indice = i
             menor = fronteira[i][1]
     return indice
 
+
 def h_manhattan(estado):
-    matriz = {0:(1,1),1:(1,2),2:(1,3),
-            3:(2,1),4:(2,2),5:(2,3),
-            6:(3,1),7:(3,2),8:(3,3)}
-    h=0;
+    matriz = {0: (1, 1), 1: (1, 2), 2: (1, 3),
+              3: (2, 1), 4: (2, 2), 5: (2, 3),
+              6: (3, 1), 7: (3, 2), 8: (3, 3)}
+    h = 0
     for k in range(9):
-        if  SOLUCAO[k] != estado[k]:
+        if SOLUCAO[k] != estado[k]:
             if estado[k] != "_":
                 x = abs(matriz[k][0]-matriz[int(estado[k])-1][0])
                 y = abs(matriz[k][1]-matriz[int(estado[k])-1][1])
                 h += x + y
     return h
+
 
 def astar_hamming(estado):
     """
@@ -183,14 +188,20 @@ def astar_hamming(estado):
     :param estado: str
     :return:
     """
-    movimentos =[]
+    print("\n### Executando algoritmo A* Hamming ###")
+    tempo_inicial = time()
+    movimentos = []
     solucao = busca_grafo(estado, 'a*_hamming')
     if solucao is not None:
         for nodo in solucao:
             movimentos.append(nodo.acao)
-        print(movimentos)
+        print('Tempo de execução A* Hamming: %f seg.' %
+              (time() - tempo_inicial))
+        print('Custo da solução: ', len(movimentos))
         return movimentos
+    print("Sem solução")
     return None
+
 
 def astar_manhattan(estado):
     """
@@ -201,13 +212,18 @@ def astar_manhattan(estado):
     :param estado: str
     :return:
     """
+    print("\n### Executando algoritmo A* Manhattan ###")
+    tempo_inicial = time()
     movimentos = []
     solucao = busca_grafo(estado, 'a*_manhattan')
     if solucao is not None:
         for nodo in solucao:
             movimentos.append(nodo.acao)
-        print(movimentos)
+        print('Tempo de execução A* Manhattan: %f seg.' %
+              (time() - tempo_inicial))
+        print('Custo da solução: ', len(movimentos))
         return movimentos
+    print("Sem solução")
     return None
 
 
@@ -222,10 +238,10 @@ def empilha_solucao(nodo):
 def busca_grafo(estado: str, type):
     nodoInicial = Nodo(estado, None, None, 0)
     fronteira = []
-    fronteira.insert(0,[nodoInicial,0])
+    fronteira.insert(0, [nodoInicial, 0])
 
     expandidos = set()
-    custoTotal=0
+    custoTotal = 0
     if (inv(estado) % 2) == 1:
         return None
     while True:
@@ -240,28 +256,20 @@ def busca_grafo(estado: str, type):
         elif type == 'a*_manhattan':
             nodoAtual = fronteira.pop(prioridades(fronteira))
 
-
         if nodoAtual[0].estado == SOLUCAO:
-            print("Nodos expandidos: ", len(expandidos))
+            print("\nNodos expandidos: ", len(expandidos))
             return empilha_solucao(nodoAtual[0])
         if nodoAtual[0].estado not in expandidos:
             proximos_nodos = expande(nodoAtual[0])
             expandidos.add(nodoAtual[0].estado)
             for proximo_nodo in proximos_nodos:
                 if proximo_nodo.estado not in expandidos and type != 'a*_hamming' and type != 'a*_manhattan':
-                    fronteira.insert(0, [proximo_nodo,0])
-                elif type == 'a*_hamming' and  proximo_nodo.estado not in expandidos and type != 'a*_manhattan':
-                    custoTotal = proximo_nodo.custo + int(h_hamming(proximo_nodo.estado))
-                    fronteira.insert(0, [proximo_nodo,custoTotal])
-                elif type != 'a*_hamming' and proximo_nodo.estado not in expandidos and type == 'a*_manhattan':
-                    custoTotal = proximo_nodo.custo + int(h_manhattan(proximo_nodo.estado))
+                    fronteira.insert(0, [proximo_nodo, 0])
+                elif type == 'a*_hamming' and proximo_nodo.estado not in expandidos and type != 'a*_manhattan':
+                    custoTotal = proximo_nodo.custo + \
+                        int(h_hamming(proximo_nodo.estado))
                     fronteira.insert(0, [proximo_nodo, custoTotal])
-
-
-
-######
-
-# Validações
-#3estadoInicial = "185423_67"
-##astar_manhattan(estadoInicial)
-
+                elif type != 'a*_hamming' and proximo_nodo.estado not in expandidos and type == 'a*_manhattan':
+                    custoTotal = proximo_nodo.custo + \
+                        int(h_manhattan(proximo_nodo.estado))
+                    fronteira.insert(0, [proximo_nodo, custoTotal])
