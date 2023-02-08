@@ -1,4 +1,4 @@
-# Inteligência Artificial | 2022/1 | Turma A | Trabalho 1
+# Inteligência Artificial | 2022/2 | Turma A | Trabalho 1
 
 ## Participantes:
  - Andrea Leonice Pereira dos Santos | 00275624

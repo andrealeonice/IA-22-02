@@ -12,7 +12,8 @@ class TestaSolucao(unittest.TestCase):
 
         """
         # a lista de sucessores esperados é igual ao conjunto abaixo (ordem nao importa)
-        succ_esperados = {(solucao.Acao.BAIXO, "2435_1687"), (solucao.Acao.ESQUERDA, "_23541687"), (solucao.Acao.DIREITA, "23_541687")}
+        succ_esperados = {(solucao.Acao.BAIXO, "2435_1687"), (solucao.Acao.ESQUERDA, "_23541687"), (
+        solucao.Acao.DIREITA, "23_541687")}
 
         sucessores = solucao.sucessor("2_3541687")  # obtem os sucessores chamando a funcao implementada
         self.assertEqual(3, len(sucessores))     # verifica se foram retornados 3 sucessores
