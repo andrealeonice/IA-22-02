@@ -205,7 +205,7 @@ class Server(object):
                 self.last_player = current_player  # records the player that just moved
                 self.state = self.state.next_state(move_xy)  # processes the move
 
-                self.display_board(move=move_yx, flipped=True)  # Do highlight flipped positions before flipping
+                self.display_board(move=move_yx, flipped=True)  # TODO highlight flipped positions before flipping
 
             else:  # illegal move
                 print(f'Player {current_player} move {move_xy}_ILLEGAL!')
