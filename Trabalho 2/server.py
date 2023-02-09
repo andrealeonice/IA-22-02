@@ -38,7 +38,7 @@ class Server(object):
         p1_dir = os.path.normpath(p1_dir)
         p2_dir = os.path.normpath(p2_dir)
 
-        self.basedir = os.path.abspath('../../../Downloads/kit_othello/kit_othello')
+        self.basedir = os.path.abspath('.')
 
         self.player_dirs = {Board.BLACK: p1_dir, Board.WHITE: p2_dir}
 
