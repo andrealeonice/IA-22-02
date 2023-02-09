@@ -26,7 +26,7 @@
   <img src="https://user-images.githubusercontent.com/44913456/217960638-65a89d99-d793-454f-9967-caa417c233ad.png" />
 </p>
      
- Para cada avaliação foram atribuias porcentagens representando sua influência na tomada de decisáo do próximo movimento.
+ Para cada avaliação foram atribuidas porcentagens representando sua influência na tomada de decisáo do próximo movimento.
 
 ## Estratégia de Parada 
  
