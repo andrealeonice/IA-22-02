@@ -4,7 +4,7 @@ import time
 
 time_limit = 4.8
 
-def has_reached_time_limit(start_time) -> bool:
-    processing_time = time.process_time() - start_time
+def has_reached_time_limit(initial_time) -> bool:
+    processing_time = time.process_time() - initial_time
 
     return processing_time >= time_limit

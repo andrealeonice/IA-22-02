@@ -2,15 +2,21 @@ from ..othello.gamestate import GameState
 from ..othello.board import Board
 
 def rate_state(state: GameState) -> int:
+    playerColor = state.player
+    opponentColor = state.board.opponent(playerColor)
 
-    # Number of pieces
-    color = state.player
-    opponentColor = state.board.opponent(color)
-    numPieces = state.board.piece_count[color]
-    piecesWeight = 0.7
+    # Rate by the difference of pieces from the opponent
+    
+    numPieces = state.board.piece_count[playerColor]
+    opponentPieces = state.board.piece_count[opponentColor]
+    piecesDiff = numPieces - opponentPieces
+    piecesWeight = 0.4
 
-    # Number of valid moves
-    validMovesyDiff = len(state.legal_moves()) - len(state.legal_moves())
-    validMovesWeight = 0.3
+    # Rate by the number of valid moves
 
-    return numPieces * piecesWeight + validMovesyDiff * validMovesWeight
+    numValidMovesPlayer = len(state.legal_moves())
+    numValidMovesOpponent = len(GameState(state.board, opponentColor).legal_moves())
+    validMovesyDiff = numValidMovesPlayer - numValidMovesOpponent
+    validMovesWeight = 0.6
+
+    return piecesDiff * piecesWeight + validMovesyDiff * validMovesWeight

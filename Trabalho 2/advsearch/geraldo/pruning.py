@@ -4,30 +4,30 @@ from ..othello.board import Board, from_string
 from .state_rating import rate_state
 from .time_checker import has_reached_time_limit
 
-def max_value(state: GameState, alpha: int, beta: int, decision, start_time) -> int:
-    if has_reached_time_limit(start_time):
+def max_value(state: GameState, alpha: int, beta: int, currentMove, initial_time):
+    newMove = currentMove
+    if has_reached_time_limit(initial_time):
+        return rate_state(state), newMove
+
+    for board, move in possible_next_moves(state):
+        value = min_value(GameState(board, state.player), alpha, beta, newMove, initial_time)
+        alpha = max(alpha, value)
+        newMove = move
+        if alpha >= beta:
+            break
+
+    return alpha, newMove
+
+
+def min_value(state: GameState, alpha: int, beta: int, move, initial_time) -> int:
+    if has_reached_time_limit(initial_time):
         return rate_state(state)
 
     for board, move in possible_next_moves(state):
-        v = min_value(GameState(board, state.player), alpha, beta, decision, start_time)
-        alpha = max(alpha, v)
-        if beta < alpha:
-            return alpha
-        else:
-            decision['move'] = move
-
-    return alpha
-
-
-def min_value(state: GameState, alpha: int, beta: int, decision, start_time) -> int:
-    if has_reached_time_limit(start_time):
-        return rate_state(state)
-
-    for board, move in possible_next_moves(state):
-        v = max_value(GameState(board, state.player), alpha, beta, decision, start_time)
-        beta = min(beta, v)
-        if alpha > beta:
-            return beta
+        value, move = max_value(GameState(board, state.player), alpha, beta, move, initial_time)
+        beta = min(beta, value)
+        if beta <= alpha:
+            break
 
     return beta
 
