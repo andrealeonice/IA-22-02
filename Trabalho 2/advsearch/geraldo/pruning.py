@@ -12,7 +12,11 @@ def max_value(state: GameState, alpha: int, beta: int, currentMove, initial_time
     for board, move in possible_next_moves(state):
         value = min_value(GameState(board, state.player), alpha, beta, newMove, initial_time)
         alpha = max(alpha, value)
-        newMove = move
+        if (move == (0,0) or move == (7,7) or move == (0,7) or move ==(7,0)):
+            newMove = move
+            break
+        else:
+            newMove = move
         if alpha >= beta:
             break
 
