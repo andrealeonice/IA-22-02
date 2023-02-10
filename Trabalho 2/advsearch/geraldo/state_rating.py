@@ -26,7 +26,7 @@ def rate_state(state: GameState) -> int:
     numPieces = state.board.piece_count[playerColor]
     opponentPieces = state.board.piece_count[opponentColor]
     piecesDiff = numPieces - opponentPieces
-    piecesWeight = 0.25
+    piecesWeight = 0.4
 
     # Rate by the number of valid moves
 
@@ -39,6 +39,6 @@ def rate_state(state: GameState) -> int:
     scorePlayer = sum_scores(scores,state.legal_moves())
     scoreOpponent = sum_scores(scores,GameState(state.board, opponentColor).legal_moves())
     scorseDiff = scorePlayer - scoreOpponent
-    scoreWeight = 0.25
+    scoreWeight = 0.1
 
     return piecesDiff * piecesWeight + validMovesyDiff * validMovesWeight + scorseDiff * scoreWeight
