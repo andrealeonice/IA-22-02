@@ -26,7 +26,7 @@
   <img src="https://user-images.githubusercontent.com/44913456/217960638-65a89d99-d793-454f-9967-caa417c233ad.png" />
 </p>
      
- Para cada avaliação foram atribuidas porcentagens representando sua influência na tomada de decisáo do próximo movimento.
+ Para cada avaliação foram atribuidas porcentagens representando sua influência na tomada de decisão do próximo movimento.
 
 ## Estratégia de Parada 
  Como estratégia de parada optamos por limitar o tempo que o algoritmo irá percorrer a árvore. No geral, o servidor irá aguardar por 5 segundos que o agente jogue, logo optamos por parar a busca em 4.8 segundos, retornando a melhor jogada encontrada até então.
