@@ -29,10 +29,10 @@
  Para cada avaliação foram atribuidas porcentagens representando sua influência na tomada de decisáo do próximo movimento.
 
 ## Estratégia de Parada 
- 
+ Como estratégia de parada optamos por limitar o tempo que o algoritmo irá percorrer a árvore. No geral o servidor irá aguardar por 5 segundos que o agente jogue, logo optamos por parar a busca em 4.8 segundos, retornando a melhor jogada encontrada até então.
 
 ## Melhorias
- 
+ Levando em consideração que conquistar as quinas dos tabuleiro é uma vantagem, optamos por dar preferência às posições (0,0), (7,7), (7,0) e (0,0), neste caso toda vez que uma das posições for uma possível jogada para o agente, o algoritmo a retorna como próximo movimento.
  
 ## Decisões de projeto e dificuldades encontradas
  A nossa dificuldade foi determinar o valor das porcentagens de cada função de avaliação de forma que pudesse melhorar a tomada de decisão do algoritmo. 
