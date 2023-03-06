@@ -7,7 +7,14 @@ def evaluate(individual):
     :param individual:list
     :return:int numero de ataques entre rainhas no individuo recebido
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+    nAttack = 0
+    for i in range(len(individual)):
+        for j in range(i + 1, len(individual)):
+            if individual[i] == individual[j]:
+                nAttack += 1
+            elif abs(individual[i] - individual[j]) == abs(i - j):
+                nAttack += 1
+    return nAttack
 
 
 def tournament(participants):
@@ -60,3 +67,5 @@ def run_ga(g, n, k, m, e):
     :return:list - melhor individuo encontrado
     """
     raise NotImplementedError  # substituir pelo seu codigo
+
+print(evaluate( [2,2,4,8,1,6,3,4]))
