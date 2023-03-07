@@ -1,3 +1,6 @@
+from random import random, randint
+
+
 def evaluate(individual):
     """
     Recebe um indivíduo (lista de inteiros) e retorna o número de ataques
@@ -24,7 +27,13 @@ def tournament(participants):
     :param participants:list - lista de individuos
     :return:list melhor individuo da lista recebida
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+    # raise NotImplementedError  # substituir pelo seu codigo
+    allConflicts = []
+
+    for i in participants:
+        allConflicts.append(evaluate(i))
+    x = allConflicts.index(min(allConflicts))
+    return participants[x]
 
 
 def crossover(parent1, parent2, index):
@@ -41,7 +50,11 @@ def crossover(parent1, parent2, index):
     :param index:int
     :return:list,list
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+    # raise NotImplementedError  # substituir pelo seu codigo
+    newParent1 = parent1[0:index] + parent2[index:]
+    newParent2 = parent2[0:index] + parent1[index:]
+
+    return newParent1, newParent2
 
 
 def mutate(individual, m):
@@ -53,7 +66,37 @@ def mutate(individual, m):
     :param m:int - probabilidade de mutacao
     :return:list - individuo apos mutacao (ou intacto, caso a prob. de mutacao nao seja satisfeita)
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+    # raise NotImplementedError  # substituir pelo seu codigo
+    if random() < m:
+        individual[randint(0, 7)] = randint(1, 8)
+
+    return individual
+
+
+def populate(n):
+    population = []
+    for i in range(n):
+        aux = []
+        for j in range(8):
+            aux.append(randint(1, 8))
+        population.append(aux)
+
+    return population
+
+
+def elitism(p, e):
+    aux = p.copy()
+    for i in range(e):
+        nP = tournament(aux)
+        aux.remove(tournament(aux))
+    return nP
+
+
+def participants(p, n, k):
+    selected = []
+    for i in range(k):
+        selected.append(p[randint(0, n - 1)])
+    return selected
 
 
 def run_ga(g, n, k, m, e):
@@ -66,6 +109,19 @@ def run_ga(g, n, k, m, e):
     :param e:int - número de indivíduos no elitismo
     :return:list - melhor individuo encontrado
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+    # raise NotImplementedError  # substituir pelo seu codigo
+    p = populate(n)
+    pL = []
+    for gen in range(g):
+        pL.append(elitism(p, e))
 
-print(evaluate( [2,2,4,8,1,6,3,4]))
+        while (n > len(pL)):
+            p1 = tournament(participants(p, n, k))
+            p2 = tournament(participants(p, n, k))
+            o1, o2 = crossover(p1, p2, randint(0, 7))
+            pL.append(mutate(o1, m))
+            pL.append(mutate(o2, m))
+        p = pL.copy()
+    return tournament(p)
+
+# run_ga(100, 40, 2, 0.3, 1)
