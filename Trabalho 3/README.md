@@ -5,7 +5,7 @@
  - Eduardo Raupp Peretto | 00313439
 
 ## Bibliotecas
-  Nenhuma biblioteca adicional foi utilizada na implementação
+  A biblioteca random foi utilizada na implementação
  
 ## Parâmetros Algoritmo Genético
 * Gerações (g): 350
