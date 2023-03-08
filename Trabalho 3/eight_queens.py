@@ -121,7 +121,17 @@ def run_ga(g, n, k, m, e):
             o1, o2 = crossover(p1, p2, randint(0, 7))
             pL.append(mutate(o1, m))
             pL.append(mutate(o2, m))
-        p = pL.copy()
+
+#       p = pL.copy()
+    #check(p)
     return tournament(p)
 
-# run_ga(100, 40, 2, 0.3, 1)
+#def check (p):
+#    conflicts = []
+#    for i in p:
+#        conflicts.append(evaluate(i))
+#    print(min(conflicts), max(conflicts), sum(conflicts)/len(p))
+
+
+
+
