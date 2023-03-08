@@ -28,4 +28,4 @@
 *  _populate(n):_ Cria uma população com n individuos
 * _elitism(p,e):_ Retorna os indivíduos do elitismo
 * _participants(p, n, k):_ Seleciona randomicamente os individuos que participarão do torneio
-* _check(p):_Esta função é responsável por executar os parâmetros de avaliação do fitness
+* _check(p):_ Esta função é responsável por executar os parâmetros de avaliação do fitness
