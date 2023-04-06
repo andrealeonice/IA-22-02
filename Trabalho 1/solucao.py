@@ -35,16 +35,16 @@ def sucessor(estado):
     acoes_possiveis = []
     if posicao_branco > 2:
         acoes_possiveis.append(
-            (Acao.CIMA, obtemEstadoResultante(estado, Acao.CIMA)))
+            ("acima", obtemEstadoResultante(estado, Acao.CIMA)))
     if posicao_branco < 6:
         acoes_possiveis.append(
-            (Acao.BAIXO, obtemEstadoResultante(estado, Acao.BAIXO)))
+            ("abaixo", obtemEstadoResultante(estado, Acao.BAIXO)))
     if posicao_branco not in [0, 3, 6]:
         acoes_possiveis.append(
-            (Acao.ESQUERDA, obtemEstadoResultante(estado, Acao.ESQUERDA)))
+            ("esquerda", obtemEstadoResultante(estado, Acao.ESQUERDA)))
     if posicao_branco not in [2, 5, 8]:
         acoes_possiveis.append(
-            (Acao.DIREITA, obtemEstadoResultante(estado, Acao.DIREITA)))
+            ("direita", obtemEstadoResultante(estado, Acao.DIREITA)))
 
     return acoes_possiveis
 
@@ -273,3 +273,5 @@ def busca_grafo(estado: str, type):
                     custoTotal = proximo_nodo.custo + \
                         int(h_manhattan(proximo_nodo.estado))
                     fronteira.insert(0, [proximo_nodo, custoTotal])
+
+sucessor("2_3541687")
